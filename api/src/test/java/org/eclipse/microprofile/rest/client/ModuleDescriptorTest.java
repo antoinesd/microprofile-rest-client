@@ -71,6 +71,15 @@ public class ModuleDescriptorTest {
     }
 
     @Test
+    public void testOptionalConfigRequires() throws IOException {
+        Set<String> optional = descriptor().requires().stream()
+                .filter(r -> r.modifiers().contains(Modifier.STATIC))
+                .map(ModuleDescriptor.Requires::name)
+                .collect(Collectors.toSet());
+        assertEquals(optional, Set.of("org.eclipse.microprofile.config"));
+    }
+
+    @Test
     public void testServiceLoaderUses() throws IOException {
         assertEquals(descriptor().uses(), Set.of(
                 "org.eclipse.microprofile.rest.client.spi.RestClientBuilderListener",

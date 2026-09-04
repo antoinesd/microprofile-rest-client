@@ -22,9 +22,14 @@
  * {@code @RestClient} is a {@code jakarta.inject.Qualifier} with an {@code AnnotationLiteral},
  * {@code @RegisterRestClient} is a CDI {@code @Stereotype} and providers are ordered with
  * {@code jakarta.annotation.Priority}, so those modules are required transitively.
+ *
+ * <p>
+ * {@code DefaultClientHeadersFactoryImpl} reads MicroProfile Config when it is available; the Config
+ * API is an optional ({@code provided}) dependency, hence {@code requires static}.
  */
 module org.eclipse.microprofile.rest.client {
     requires java.logging;
+    requires static org.eclipse.microprofile.config;
     requires transitive jakarta.annotation;
     requires transitive jakarta.cdi;
     requires transitive jakarta.inject;
