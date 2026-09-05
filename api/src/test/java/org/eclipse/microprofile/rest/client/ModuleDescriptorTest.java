@@ -71,12 +71,21 @@ public class ModuleDescriptorTest {
     }
 
     @Test
-    public void testOptionalConfigRequires() throws IOException {
+    public void testOptionalRequires() throws IOException {
         Set<String> optional = descriptor().requires().stream()
                 .filter(r -> r.modifiers().contains(Modifier.STATIC))
                 .map(ModuleDescriptor.Requires::name)
                 .collect(Collectors.toSet());
-        assertEquals(optional, Set.of("org.eclipse.microprofile.config"));
+        assertEquals(optional, Set.of("jakarta.cdi", "jakarta.inject", "org.eclipse.microprofile.config"));
+    }
+
+    @Test
+    public void testMandatoryRequires() throws IOException {
+        Set<String> mandatory = descriptor().requires().stream()
+                .filter(r -> !r.modifiers().contains(Modifier.STATIC))
+                .map(ModuleDescriptor.Requires::name)
+                .collect(Collectors.toSet());
+        assertEquals(mandatory, Set.of("java.base", "java.logging", "jakarta.annotation", "jakarta.ws.rs"));
     }
 
     @Test
