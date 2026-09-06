@@ -17,8 +17,8 @@
 package org.eclipse.microprofile.rest.client;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
 import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertTrue;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -45,7 +45,8 @@ public class ModuleDescriptorTest {
     public void testModuleName() throws IOException {
         ModuleDescriptor descriptor = descriptor();
         assertEquals(descriptor.name(), "org.eclipse.microprofile.rest.client");
-        assertTrue(!descriptor.isOpen() && !descriptor.isAutomatic());
+        assertFalse(descriptor.isOpen(), "the API module must not be an open module");
+        assertFalse(descriptor.isAutomatic(), "the API module must be an explicit module");
     }
 
     @Test
